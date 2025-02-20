@@ -24,8 +24,12 @@ public class Game extends JPanel implements ActionListener {
     private boolean isPaused = false; // Para controlar o estado do jogo
 
     private void startNewGame() {
-        // Reseta o estado do jogo, como posições, pontuações, etc.
+        // Reseta o estado do jogo, pontuações, etc.
         System.out.println("Iniciando nova partida...");
+        player1Wins = 0;
+        player2Wins = 0;
+        currentRound = 1;
+        repaint();
     }
 
     private Tanque player1;
@@ -110,17 +114,6 @@ public class Game extends JPanel implements ActionListener {
         obstaculos.add(new Obstaculo(500, 200, 50, 200));
     }
 
-    /**
-     * Redesenha o componente com o estado atual do jogo.
-     * Caso o jogo esteja pausado, exibe o menu de pausa com as opções:
-     * 1. Retomar
-     * 2. Nova Partida
-     * 3. Sair
-     * Caso contrário, desenha as informações do jogo, os tanques, as balas e os
-     * obstáculos.
-     * 
-     * @param g o objeto gráfico para desenhar no componente.
-     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -133,7 +126,7 @@ public class Game extends JPanel implements ActionListener {
             g.setColor(Color.WHITE);
             g.drawString("PAUSADO", 170, 90);
             g.drawString("1. Retomar", 150, 120);
-            g.drawString("2. Resetar Partida", 150, 150);
+            g.drawString("2. Resetar placar", 150, 150);
             g.drawString("3. Sair", 150, 180);
         } else {
 
@@ -334,13 +327,13 @@ public class Game extends JPanel implements ActionListener {
     private boolean isPlayer1Key(int keyCode) {
         return keyCode == KeyEvent.VK_W || keyCode == KeyEvent.VK_A ||
                 keyCode == KeyEvent.VK_S || keyCode == KeyEvent.VK_D ||
-                keyCode == KeyEvent.VK_SPACE;
+                keyCode == KeyEvent.VK_SPACE || keyCode == KeyEvent.VK_Q || keyCode == KeyEvent.VK_E;
     }
 
     private boolean isPlayer2Key(int keyCode) {
         return keyCode == KeyEvent.VK_UP || keyCode == KeyEvent.VK_DOWN ||
                 keyCode == KeyEvent.VK_LEFT || keyCode == KeyEvent.VK_RIGHT ||
-                keyCode == KeyEvent.VK_ENTER;
+                keyCode == KeyEvent.VK_ENTER || keyCode == KeyEvent.VK_N || keyCode == KeyEvent.VK_M;
     }
 
     public static void main(String[] args) {
