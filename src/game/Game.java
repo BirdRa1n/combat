@@ -1,3 +1,9 @@
+package game;
+
+import entities.Bala;
+import entities.Obstaculo;
+import entities.Tanque;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
@@ -16,10 +22,12 @@ public class Game extends JPanel implements ActionListener {
     private int player1Wins;
     private int player2Wins;
     private boolean isPaused = false; // Para controlar o estado do jogo
+
     private void startNewGame() {
         // Reseta o estado do jogo, como posições, pontuações, etc.
         System.out.println("Iniciando nova partida...");
     }
+
     private Tanque player1;
     private Tanque player2;
     private ArrayList<Bala> balas;
@@ -102,15 +110,17 @@ public class Game extends JPanel implements ActionListener {
         obstaculos.add(new Obstaculo(500, 200, 50, 200));
     }
 
-        /**
-         * Redesenha o componente com o estado atual do jogo.
-         * Caso o jogo esteja pausado, exibe o menu de pausa com as opções:
-         * 1. Retomar
-         * 2. Nova Partida
-         * 3. Sair
-         * Caso contrário, desenha as informações do jogo, os tanques, as balas e os obstáculos.
-         * @param g o objeto gráfico para desenhar no componente.
-         */
+    /**
+     * Redesenha o componente com o estado atual do jogo.
+     * Caso o jogo esteja pausado, exibe o menu de pausa com as opções:
+     * 1. Retomar
+     * 2. Nova Partida
+     * 3. Sair
+     * Caso contrário, desenha as informações do jogo, os tanques, as balas e os
+     * obstáculos.
+     * 
+     * @param g o objeto gráfico para desenhar no componente.
+     */
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -149,6 +159,7 @@ public class Game extends JPanel implements ActionListener {
             }
         }
     }
+
     @Override
     public void actionPerformed(ActionEvent e) {
         // Processa movimento baseado nas teclas pressionadas
@@ -174,8 +185,9 @@ public class Game extends JPanel implements ActionListener {
 
             if (bala.getAreaColisao(player2) && bala.getOwner() != player2) {
                 balas.remove(i);
-                player2.perdeVida();;
-                if (player2.getVidas()<= 0) {
+                player2.perdeVida();
+                ;
+                if (player2.getVidas() <= 0) {
                     player1Wins++;
                     playPlayer1WinSound();
                     resetRound("Player 1 venceu o round!");
@@ -214,31 +226,45 @@ public class Game extends JPanel implements ActionListener {
     private void processPlayerMovement() {
         synchronized (this) {
             // Movimenta o jogador 1
-            if (player1Keys.contains(KeyEvent.VK_W)) player1.setDy(-player1.getVelocidade());
-            else if (player1Keys.contains(KeyEvent.VK_S)) player1.setDy(player1.getVelocidade());
-            else player1.setDy(0);
+            if (player1Keys.contains(KeyEvent.VK_W))
+                player1.setDy(-player1.getVelocidade());
+            else if (player1Keys.contains(KeyEvent.VK_S))
+                player1.setDy(player1.getVelocidade());
+            else
+                player1.setDy(0);
 
-            if (player1Keys.contains(KeyEvent.VK_A)) player1.setDx(-player1.getVelocidade());
-            else if (player1Keys.contains(KeyEvent.VK_D)) player1.setDx(player1.getVelocidade());
-            else player1.setDx(0);
+            if (player1Keys.contains(KeyEvent.VK_A))
+                player1.setDx(-player1.getVelocidade());
+            else if (player1Keys.contains(KeyEvent.VK_D))
+                player1.setDx(player1.getVelocidade());
+            else
+                player1.setDx(0);
 
             // Disparo do jogador 1
             for (Integer key : player1Keys) {
-                player1.handleKeyPress(new KeyEvent(this, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, key, KeyEvent.CHAR_UNDEFINED), true, balas);
+                player1.handleKeyPress(new KeyEvent(this, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, key,
+                        KeyEvent.CHAR_UNDEFINED), true, balas);
             }
 
             // Movimenta o jogador 2
-            if (player2Keys.contains(KeyEvent.VK_UP)) player2.setDy(-player2.getVelocidade());
-            else if (player2Keys.contains(KeyEvent.VK_DOWN)) player2.setDy(player2.getVelocidade());
-            else player2.setDy(0);
+            if (player2Keys.contains(KeyEvent.VK_UP))
+                player2.setDy(-player2.getVelocidade());
+            else if (player2Keys.contains(KeyEvent.VK_DOWN))
+                player2.setDy(player2.getVelocidade());
+            else
+                player2.setDy(0);
 
-            if (player2Keys.contains(KeyEvent.VK_LEFT)) player2.setDx(-player2.getVelocidade());
-            else if (player2Keys.contains(KeyEvent.VK_RIGHT)) player2.setDx(player2.getVelocidade());
-            else player2.setDx(0);
+            if (player2Keys.contains(KeyEvent.VK_LEFT))
+                player2.setDx(-player2.getVelocidade());
+            else if (player2Keys.contains(KeyEvent.VK_RIGHT))
+                player2.setDx(player2.getVelocidade());
+            else
+                player2.setDx(0);
 
             // Disparo do jogador 2
             for (Integer key : player2Keys) {
-                player2.handleKeyPress(new KeyEvent(this, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, key, KeyEvent.CHAR_UNDEFINED), false, balas);
+                player2.handleKeyPress(new KeyEvent(this, KeyEvent.KEY_PRESSED, System.currentTimeMillis(), 0, key,
+                        KeyEvent.CHAR_UNDEFINED), false, balas);
             }
 
             player1.mover();
@@ -262,9 +288,8 @@ public class Game extends JPanel implements ActionListener {
 
     private void declareWinner() {
         // Declara o vencedor do jogo
-        String winner = player1Wins > player2Wins ? "Player 1 é o grande vencedor!" :
-                player2Wins > player1Wins ? "Player 2 é o grande vencedor!" :
-                        "O jogo terminou empatado!";
+        String winner = player1Wins > player2Wins ? "Player 1 é o grande vencedor!"
+                : player2Wins > player1Wins ? "Player 2 é o grande vencedor!" : "O jogo terminou empatado!";
 
         JOptionPane.showMessageDialog(this, winner, "Fim de Jogo", JOptionPane.INFORMATION_MESSAGE);
         System.exit(0);
@@ -272,7 +297,7 @@ public class Game extends JPanel implements ActionListener {
 
     public void playBackgroundMusic() {
         try {
-            File file = new File("src/sounds/background.wav");
+            File file = new File("src/resources/sounds/background.wav");
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
@@ -284,7 +309,7 @@ public class Game extends JPanel implements ActionListener {
 
     public void playPlayer1WinSound() {
         try {
-            File file = new File("src/sounds/player-1-wins.wav");
+            File file = new File("src/resources/sounds/player-1-wins.wav");
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
@@ -296,7 +321,7 @@ public class Game extends JPanel implements ActionListener {
 
     public void playPlayer2WinSound() {
         try {
-            File file = new File("src/sounds/player-2-wins.wav");
+            File file = new File("src/resources/sounds/player-2-wins.wav");
             AudioInputStream audioInputStream = AudioSystem.getAudioInputStream(file);
             Clip clip = AudioSystem.getClip();
             clip.open(audioInputStream);
@@ -322,7 +347,8 @@ public class Game extends JPanel implements ActionListener {
         SwingUtilities.invokeLater(() -> {
             // Configura a janela do menu de jogo
             JFrame frame = new JFrame("Combat Game Menu");
-            String input = JOptionPane.showInputDialog(frame, "Quantos rounds deseja jogar?", "Configurar Jogo", JOptionPane.QUESTION_MESSAGE);
+            String input = JOptionPane.showInputDialog(frame, "Quantos rounds deseja jogar?", "Configurar Jogo",
+                    JOptionPane.QUESTION_MESSAGE);
 
             int rounds = 1; // Valor padrão
             try {
@@ -331,7 +357,8 @@ public class Game extends JPanel implements ActionListener {
                     throw new NumberFormatException();
                 }
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(frame, "Entrada inválida! Usando 1 round como padrão.", "Erro", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Entrada inválida! Usando 1 round como padrão.", "Erro",
+                        JOptionPane.ERROR_MESSAGE);
             }
 
             // Configura a janela principal do jogo

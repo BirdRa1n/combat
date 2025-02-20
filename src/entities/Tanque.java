@@ -1,10 +1,13 @@
+package entities;
+
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.util.ArrayList;
 import javax.sound.sampled.*;
 
-class Tanque {
+public class Tanque {
     private int x, y;
     private int previousX, previousY; // Armazena a posição anterior
     private final int tamanho = 40;
@@ -17,6 +20,7 @@ class Tanque {
     public int getVelocidade() {
         return velocidade;
     }
+
     public void setDx(int dx) {
         this.dx = dx;
     }
@@ -26,7 +30,6 @@ class Tanque {
     }
 
     private long tempoUltimoDisparo; // Armazena o momento do último disparo
-
 
     public long getTempoUltimoDisparo() {
         return tempoUltimoDisparo;
@@ -68,7 +71,7 @@ class Tanque {
         }
     }
 
-      public void handleKeyPress(KeyEvent e, boolean isPlayer1, ArrayList<Bala> balas) {
+    public void handleKeyPress(KeyEvent e, boolean isPlayer1, ArrayList<Bala> balas) {
         if (isPlayer1) {
             switch (e.getKeyCode()) {
                 case KeyEvent.VK_W -> dy = -velocidade;
@@ -100,7 +103,6 @@ class Tanque {
         }
 
     }
-    
 
     public void mover() {
         // Armazena a posição atual antes de mover
@@ -132,20 +134,22 @@ class Tanque {
 
     public void playSomDisparo() {
         try {
-            File soundFile = new File("src/sounds/shot.wav");
+            File soundFile = new File("src/resources/sounds/shot.wav");
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(soundFile);
+            AudioFormat format = audioStream.getFormat();
+            int frames = (int) (audioStream.getFrameLength() * 0.5);
+            byte[] audioData = new byte[frames * format.getFrameSize()];
+            audioStream.read(audioData);
+            ByteArrayInputStream bais = new ByteArrayInputStream(audioData);
+            AudioInputStream audioStream2 = new AudioInputStream(bais, format, frames);
             Clip clip = AudioSystem.getClip();
-            clip.open(audioStream);
+            clip.open(audioStream2);
             clip.start();
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    /**
-     * Retorna um retângulo que representa a área de colisão do tanque.
-     * @return um retângulo com a posição e tamanho do tanque.
-     */
     public Rectangle getRectangle() {
         return new Rectangle(x, y, tamanho, tamanho);
     }

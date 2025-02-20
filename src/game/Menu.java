@@ -1,3 +1,5 @@
+package game;
+
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -6,9 +8,9 @@ public class Menu extends JPanel {
     private int rounds = 0;
     private final int maxRounds = 10;
     private final int minRounds = 1;
-    private  boolean  jogoIniciado = false;
+    private boolean jogoIniciado = false;
 
-    public Menu(){
+    public Menu() {
         setPreferredSize(new Dimension(800, 600));
         setBackground(Color.BLACK);
         setFocusable(true);
@@ -18,11 +20,13 @@ public class Menu extends JPanel {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_LEFT) {
                     // Decrease rounds with left arrow
-                    if (rounds > minRounds) rounds--;
+                    if (rounds > minRounds)
+                        rounds--;
                     repaint();
                 } else if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
                     // Increase rounds with right arrow
-                    if (rounds < maxRounds) rounds++;
+                    if (rounds < maxRounds)
+                        rounds++;
                     repaint();
                 } else if (e.getKeyCode() == KeyEvent.VK_Q) {
                     // Exit the game when pressing Q
@@ -34,6 +38,7 @@ public class Menu extends JPanel {
             }
         });
     }
+
     private void iniciarJogo() {
         // Configura a janela principal do jogo
         JFrame gameFrame = new JFrame("Combat Game");
@@ -47,7 +52,8 @@ public class Menu extends JPanel {
 
         // Fecha a janela do menu
         JFrame topFrame = (JFrame) SwingUtilities.getWindowAncestor(this);
-        topFrame.dispose();    }
+        topFrame.dispose();
+    }
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -89,5 +95,5 @@ public class Menu extends JPanel {
             frame.setVisible(true);
         });
     }
-    
+
 }
