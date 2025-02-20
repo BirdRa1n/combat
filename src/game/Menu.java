@@ -8,7 +8,6 @@ public class Menu extends JPanel {
     private int rounds = 0;
     private final int maxRounds = 10;
     private final int minRounds = 1;
-    private boolean jogoIniciado = false;
 
     public Menu() {
         setPreferredSize(new Dimension(800, 600));
